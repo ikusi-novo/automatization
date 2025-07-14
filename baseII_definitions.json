@@ -1,0 +1,17 @@
+{
+    "mio": {
+        "workflow_type": "1",
+        "params": {
+            "column_mapping": [
+                "df['f030f5088e744d224fc4f886ba963ceda38ffdec2c85504d741a105871123a54'] = df['Destination Amount']"
+            ]
+        }
+    }, "zinli": {
+        "workflow_type": "1",
+        "params": {
+            "column_mapping": [
+                "df['f030f5088e744d224fc4f886ba963ceda38ffdec2c85504d741a105871123a54'] = df['Destination Amount']"
+            ]
+        }
+    }
+}

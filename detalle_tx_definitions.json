@@ -1,0 +1,264 @@
+{
+    "mio": {
+        "workflow_type": "1",
+        "params": {
+            "column_mapping": [
+                "df['f030f5088e744d224fc4f886ba963ceda38ffdec2c85504d741a105871123a54'] = df['settle_amount_impact']",
+                "df['6f2f3abd5cd439acc192a74f731e74c18a0a1eb8ee49cd2a6ffe13cda2b66114'] = df['from_account_id']",
+                "df['b44f59c11425e5aedad4d9b44c72d4f4b855173d0463e741d667fb1cbf66f51f'] = df['to_account_id']"
+            ], "detalle_tx": {
+                "estado": {
+                    "condlist": [
+                        "df['rsp_code_req'] != '00'",
+                        "df['settle_amount_impact'] == 0 and df['settle_tran_fee_req'] == 0",
+                        "df['message_type'] == '0100'",
+                        "df['message_type'] == '0420' and df['source_node_name'].str.contains('srVISA')"
+                    ],
+                    "choicelist": [
+                        "'DECLINADA'",
+                        "'SIN COSTO'",
+                        "'PREAUTORIZACION'",
+                        "'REVERSO PREAUTORIZACION'"
+                    ], 
+                    "default": "A_NO CONCILIADA"
+                }, 
+                "debito": {
+                    "condlist": [
+                        "df['estado'] != 'A_NO CONCILIADA'",
+                        "df['tran_type'] != '40' and df['message_type'] == '0420'",
+                        "df['tran_type'] != '40' and df['from_account_id'].notnull()",
+                        "df['tran_type'] != '40' and df['to_account_id'].notnull()",
+                        "df['tran_type'] == '40'"
+                    ],
+                    "choicelist": [
+                        "0",
+                        "(df['settle_amount_impact'] + df['settle_tran_fee_req']) * -1",
+                        "df['settle_amount_impact'] + df['settle_tran_fee_req']",
+                        "0",
+                        "df['settle_amount_impact'] + df['settle_tran_fee_req']"
+                    ], 
+                    "default": 0
+                },
+                "credito": {
+                    "condlist": [
+                        "df['estado'] != 'A_NO CONCILIADA'",
+                        "df['tran_type'] != '40' and df['message_type'] == '0420'",
+                        "df['tran_type'] != '40' and df['to_account_id'].notnull()",
+                        "df['tran_type'] != '40' and df['from_account_id'].notnull()",
+                        "df['tran_type'] == '40'"
+                    ],
+                    "choicelist": [
+                        "0",
+                        "0",
+                        "df['settle_amount_impact']",
+                        "0",
+                        "df['settle_amount_impact']"
+                    ], 
+                    "default": 0.0
+                }
+            }, "posteos": {
+                "condlist": [
+                    "df['rsp_code_req'] == '00' and df['source_node_name'] == 'srVISAMIO' and df['estado'] == 'A_NO CONCILIADA'",
+                    "df['rsp_code_req'] == '00' and df['source_node_name'] == 'srPostMIO' and df['estado'] == 'A_NO CONCILIADA'"
+                ],
+                "choicelist": [
+                    "'POSTEADO'",
+                    "'POSTEADO MANUAL'"
+                ], 
+                "default": "NO APLICA"
+            }
+        }
+    }, 
+    "banco_coopcentral": {
+        "workflow_type": "2",
+        "params": {
+            "column_mapping": [
+                "df['f030f5088e744d224fc4f886ba963ceda38ffdec2c85504d741a105871123a54'] = df['Monto Trans Original']",
+                "df['6f2f3abd5cd439acc192a74f731e74c18a0a1eb8ee49cd2a6ffe13cda2b66114'] = df['From_account']",
+                "df['b44f59c11425e5aedad4d9b44c72d4f4b855173d0463e741d667fb1cbf66f51f'] = df['To_account']"
+            ], 
+            "detalle_tx": {
+                "estado": {
+                    "condlist": [
+                        "df['Response Code'] != '00'",
+                        "df['Monto Trans Original'] == 0",
+                        "df['Message Type'] == '0100'",
+                        "df['Message Type'] == '0420' and df['Nodo'].str.contains('srVISA')"
+                    ],
+                    "choicelist": [
+                        "'DECLINADA'",
+                        "'SIN COSTO'",
+                        "'PRE AUTORIZACION'",
+                        "'REVERSO PRE AUTORIZACION'"
+                    ],
+                    "default": "A_NO CONCILIADA"
+                },
+                "debito": {
+                    "condlist": [
+                        "df['estado'] != 'A_NO CONCILIADA'",
+                        "df['From_account'].notnull() and df['Message Type'] == '0420'",
+                        "df['From_account'].notnull()"
+                    ], 
+                    "choicelist": [
+                        "0",
+                        "df['Monto Trans Original'] * -1",
+                        "df['Monto Trans Original']"
+                    ], 
+                    "default": 0
+                },
+                "credito": {
+                    "condlist": [
+                        "df['estado'] != 'A_NO CONCILIADA'",
+                        "df['To_account'].notnull() and df['Message Type'] == '0420'",
+                        "df['To_account'].notnull()"
+                    ], 
+                    "choicelist": [
+                        "0",
+                        "df['Monto Trans Original'] * -1",
+                        "df['Monto Trans Original']"
+                    ], 
+                    "default": 0
+                }
+            }
+        }
+    },
+    "kubo_financiero": {
+        "workflow_type": "2",
+        "params": {
+            "column_mapping": [
+                "df['f030f5088e744d224fc4f886ba963ceda38ffdec2c85504d741a105871123a54'] = df['Monto Trans Original']",
+                "df['6f2f3abd5cd439acc192a74f731e74c18a0a1eb8ee49cd2a6ffe13cda2b66114'] = df['From_account']",
+                "df['b44f59c11425e5aedad4d9b44c72d4f4b855173d0463e741d667fb1cbf66f51f'] = df['To_account']"
+            ], 
+            "detalle_tx": {
+                "estado": {
+                    "condlist": [
+                        "df['Response Code'] != '00'",
+                        "df['Monto Trans Original'] == 0",
+                        "df['Transaction Type'] == '01' and df['Message Type'] == '0420' and df['Nodo'].str.contains('srB24')",
+                        "df['Message Type'] == '0100'",
+                        "df['Message Type'] == '0420'",
+                        "df['Message Type'] == '0120'"
+                    ], 
+                    "choicelist": [
+                        "'DECLINADA'",
+                        "'SIN COSTO'",
+                        "'A_NO CONCILIADA'",
+                        "'PRE AUTORIZACION'",
+                        "'REVERSO PRE AUTORIZACION'",
+                        "'ADMINISTRATIVO'"
+                    ],
+                    "default": "A_NO CONCILIADA"
+                },
+                "debito": {
+                    "condlist": [
+                        "df['estado'] != 'A_NO CONCILIADA'",
+                        "df['From_account'].notnull() and df['Message Type'] == '0420'",
+                        "df['From_account'].notnull()"
+                    ],
+                    "choicelist": [
+                        "0",
+                        "df['Monto Trans Original'] * -1",
+                        "df['Monto Trans Original']"
+                    ], 
+                    "default": 0
+                }, 
+                "credito": {
+                    "condlist": [
+                        "df['estado'] != 'A_NO CONCILIADA'",
+                        "df['To_account'].notnull() and df['Message Type'] == '0420'",
+                        "df['To_account'].notnull()"
+                    ],
+                    "choicelist": [
+                        "0",
+                        "df['Monto Trans Original'] * -1",
+                        "df['Monto Trans Original']"
+                    ], 
+                    "default": 0
+                }
+            }
+        }
+    },
+    "zinli": {
+        "workflow_type": "1",
+        "params": {
+            "column_mapping": [
+                "df['f030f5088e744d224fc4f886ba963ceda38ffdec2c85504d741a105871123a54'] = df['settle_amount_impact']",
+                "df['6f2f3abd5cd439acc192a74f731e74c18a0a1eb8ee49cd2a6ffe13cda2b66114'] = df['from_account_id']",
+                "df['b44f59c11425e5aedad4d9b44c72d4f4b855173d0463e741d667fb1cbf66f51f'] = df['to_account_id']"
+            ],
+            "detalle_tx": {
+                "estado": {
+                    "condlist": [
+                        "df['message_type'] == '0420' and df['source_node_name'] == 'srVISAMFTECH'",
+                        "df['rsp_code_req'] != '00'",
+                        "df['settle_amount_impact'] == 0",
+                        "df['message_type'] == '0100'"
+                    ],
+                    "choicelist": [
+                        "'REVERSO POS'",
+                        "'DECLINADA'",
+                        "'SIN COSTO'",
+                        "'PREAUTORIZACION'"
+                    ],
+                    "default": "A_NO CONCILIADA"
+                },
+                "debito": {
+                    "condlist": [
+                        "df['estado'] != 'A_NO CONCILIADA'",
+                        "df['from_account_id'].notnull() and df['to_account_id'].isnull() and df['card_acceptor_name_loc'].str.contains('REVERSO CARGO API MFTECH')",
+                        "df['from_account_id'].notnull() and df['to_account_id'].isnull()",
+                        "df['from_account_id'].notnull() and df['to_account_id'].notnull() and df['card_acceptor_name_loc'].str.contains('REVERSO TRANSFERENCIA API MFTECH')",
+                        "df['from_account_id'].notnull() and df['to_account_id'].notnull() and df['card_acceptor_name_loc'].str.contains('REVERSO CARGO API MFTECH')",
+                        "df['from_account_id'].notnull() and df['to_account_id'].notnull() and df['card_acceptor_name_loc'].str.contains('COMISION POR REVERSO CARGO API')",
+                        "df['from_account_id'].notnull() and df['to_account_id'].notnull()"
+                    ],
+                    "choicelist": [
+                        "0",
+                        "df['settle_amount_impact'] * -1",
+                        "df['settle_amount_impact']",
+                        "df['settle_amount_impact'] * -1",
+                        "df['settle_amount_impact'] * -1",
+                        "df['settle_amount_impact'] * -1",
+                        "df['settle_amount_impact']"
+                    ],
+                    "default": 0
+                },
+                "credito": {
+                    "condlist": [
+                        "df['estado'] != 'A_NO CONCILIADA'",
+                        "df['to_account_id'].notnull() and df['from_account_id'].isnull() and df['card_acceptor_name_loc'].str.contains('COMISION POR RECARGA API MFTECH')",
+                        "df['to_account_id'].notnull() and df['from_account_id'].isnull() and df['card_acceptor_name_loc'] == 'REVERSO CASHIN API MFTECH             PA'",
+                        "df['to_account_id'].notnull() and df['from_account_id'].isnull() and df['card_acceptor_name_loc'] == 'COMISION POR REVERSO CASHIN API MFTECH  '",
+                        "df['to_account_id'].notnull() and df['from_account_id'].notnull() and df['card_acceptor_name_loc'].str.contains('REVERSO TRANSFERENCIA API MFTECH')",
+                        "df['to_account_id'].notnull() and df['from_account_id'].notnull() and df['card_acceptor_name_loc'].str.contains('COMISION POR TRANSFERENCIA API MFTECH')",
+                        "df['to_account_id'].notnull() and df['from_account_id'].notnull()",
+                        "df['to_account_id'].notnull() and df['from_account_id'].isnull()"
+                    ],
+                    "choicelist": [
+                        "0",
+                        "df['settle_amount_impact'] * -1",
+                        "df['settle_amount_impact'] * -1",
+                        "df['settle_amount_impact']",
+                        "df['settle_amount_impact'] * -1",
+                        "0",
+                        "df['settle_amount_impact']",
+                        "df['settle_amount_impact']"
+                    ],
+                    "default": 0
+                }
+            },
+            "posteos": {
+                "condlist": [
+                    "df['rsp_code_req'] == '00' and df['source_node_name'] == 'srVISAMFTECH' and df['estado'] == 'A_NO CONCILIADA'",
+                    "df['rsp_code_req'] == '00' and df['source_node_name'] == 'srPostMftech' and df['estado'] == 'A_NO CONCILIADA'"
+                ],
+                "choicelist": [
+                    "'POSTEADO'",
+                    "'POSTEADO MANUAL'"
+                ],
+                "default": "NO APLICA"
+            }
+        }
+    }
+}

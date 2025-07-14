@@ -1,0 +1,42 @@
+{
+    "mio": {
+        "workflow_type": "1",
+        "params": {
+            "column_mapping": [
+                "df['f030f5088e744d224fc4f886ba963ceda38ffdec2c85504d741a105871123a54'] = df['account_id']",
+                "df['6f2f3abd5cd439acc192a74f731e74c18a0a1eb8ee49cd2a6ffe13cda2b66114'] = df['ledger_balance']",
+                "df['b44f59c11425e5aedad4d9b44c72d4f4b855173d0463e741d667fb1cbf66f51f'] = df['available_balance']"
+            ]
+        }
+    }, 
+    "kubo_financiero": {
+        "workflow_type": "1",
+        "params": {
+            "column_mapping": [
+                "df['f030f5088e744d224fc4f886ba963ceda38ffdec2c85504d741a105871123a54'] = df['account_id']",
+                "df['6f2f3abd5cd439acc192a74f731e74c18a0a1eb8ee49cd2a6ffe13cda2b66114'] = df['ledger_balance']",
+                "df['b44f59c11425e5aedad4d9b44c72d4f4b855173d0463e741d667fb1cbf66f51f'] = df['available_balance']"
+            ]
+        }
+    }, 
+    "banco_coopcentral": {
+        "workflow_type": "1",
+        "params": {
+            "column_mapping": [
+                "df['f030f5088e744d224fc4f886ba963ceda38ffdec2c85504d741a105871123a54'] = df['account_id']",
+                "df['6f2f3abd5cd439acc192a74f731e74c18a0a1eb8ee49cd2a6ffe13cda2b66114'] = df['ledger_balance']",
+                "df['b44f59c11425e5aedad4d9b44c72d4f4b855173d0463e741d667fb1cbf66f51f'] = df['available_balance']"
+            ]
+        }
+    }, 
+    "zinli": {
+        "workflow_type": "1",
+        "params": {
+            "column_mapping": [
+                "df['f030f5088e744d224fc4f886ba963ceda38ffdec2c85504d741a105871123a54'] = df['account_id']",
+                "df['6f2f3abd5cd439acc192a74f731e74c18a0a1eb8ee49cd2a6ffe13cda2b66114'] = df['ledger_balance']",
+                "df['b44f59c11425e5aedad4d9b44c72d4f4b855173d0463e741d667fb1cbf66f51f'] = df['available_balance']"
+            ]
+        }
+    }
+}

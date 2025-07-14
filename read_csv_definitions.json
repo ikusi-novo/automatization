@@ -1,0 +1,279 @@
+{
+    "mio": {
+        "report_balances": {
+            "delimiter": ",",
+            "names": [
+                "account_id", 
+                "ledger_balance", 
+                "available_balance", 
+                "account_type"
+            ],
+            "column_format": [
+                ["ledger_balance", "number"],
+                ["available_balance", "number"]
+            ],
+            "column_ops": [
+                ["ledger_balance", "'ledger_balance' div 100"],
+                ["available_balance", "'available_balance' div 100"]
+            ]
+        }, 
+        "detalle_tx": {
+            "delimiter": ";",
+            "names": [
+                "datetime_req",
+                "pan",
+                "tran_type",
+                "message_type",
+                "settle_amount_impact",
+                "auth_id_rsp",
+                "acquiring_inst_id_code",
+                "retrieval_reference_nr",
+                "card_acceptor_id_code",
+                "card_acceptor_name_loc",
+                "merchant_type",
+                "rsp_code_req",
+                "rsp_code_rsp",
+                "tran_nr",
+                "source_node_name",
+                "source_node_key",
+                "terminal_id",
+                "from_account_id",
+                "to_account_type",
+                "tran_currency_code",
+                "to_account_id",
+                "tran_amount_rsp",
+                "settle_cash_req",
+                "settle_tran_fee_req",
+                "srcnode_conversion_rate",
+                "settle_currency_code",
+                "structured_data_rsp - Available",
+                "structured_data_rsp - Ledger",
+                "structured_data_rsp - Metadata",
+                "structured_data_rsp - Token",
+                "N(0)",
+                "N(1)"
+            ],
+            "column_format": [
+                ["settle_amount_impact", "number"],
+                ["tran_amount_rsp", "number"],
+                ["settle_cash_req", "number"],
+                ["settle_tran_fee_req", "number"],
+                ["datetime_req", ["date", "%Y-%m-%d %H:%M:%S.%f"]]
+            ],
+            "column_ops": [
+                ["Fecha_tx", "'datetime_req' as '%Y-%m-%d'"]
+            ]
+        },
+        "baseII": {
+            "delimiter": "|",
+            "names": [],
+            "column_format": [
+                ["Destination Amount", "number"],
+                ["Source Amount", "number"],
+                ["Fecha Reporte", ["date", "%d/%m/%Y"]]
+            ],
+            "column_ops": [
+                ["Destination Amount", "'Destination Amount' div 100"],
+                ["Source Amount", "'Source Amount' div 100"]
+            ]
+        },
+        "liberaciones": {
+            "delimiter": ",",
+            "names": [
+                "Cuenta",
+                "Tarjeta",
+                "Monto Trx",
+                "Autorizacion ID",
+                "Merchant Type",
+                "Fecha Liberacion",
+                "Fecha Trx",
+                "Nodo:Ref"
+            ],
+            "column_format": [
+                ["Monto Trx", "number"],
+                ["Fecha Liberacion", ["date", "%Y-%m-%d %H:%M:%S.%f"]],
+                ["Fecha Trx", ["date", "%Y-%m-%d %H:%M:%S.%f"]]
+            ],
+            "column_ops": [
+                ["Monto Trx", "'Monto Trx' div 100"],
+                ["Monto Trx", "'Monto Trx' mul -1"],
+                ["Fecha Trx", "'Fecha Trx' as '%d/%m/%Y'"]
+            ]
+        }
+    }, "kubo_financiero": {
+        "report_balances": {
+            "delimiter": ",",
+            "names": [
+                "account_id", 
+                "ledger_balance", 
+                "available_balance", 
+                "account_type"
+            ],
+            "column_format": [
+                ["ledger_balance", "number"],
+                ["available_balance", "number"]
+            ],
+            "column_ops": [
+                ["ledger_balance", "'ledger_balance' div 100"],
+                ["available_balance", "'available_balance' div 100"]
+            ]
+        },
+        "detalle_tx": {
+            "delimiter": ";",
+            "names": [
+                "Fecha_transaccion",
+                "Nro_Tarjeta",
+                "Transaction Type",
+                "Message Type",
+                "Monto Trans Original",
+                "Authorization ID",
+                "Acquiring Inst ID",
+                "Retrieval Ref",
+                "Card Acceptor ID",
+                "Card Acceptor Name",
+                "Merchant Type",
+                "Response Code",
+                "Transaction Code",
+                "From_account",
+                "To_account",
+                "Nodo"
+            ],
+            "column_format": [
+                ["Monto Trans Original", "number"],
+                ["Fecha_transaccion", ["date", "%Y-%m-%d %H:%M:%S.%f"]]
+            ],
+            "column_ops": []
+        }
+    }, "banco_coopcentral": {
+        "report_balances": {
+            "delimiter": ",",
+            "names": [
+                "account_id", 
+                "ledger_balance", 
+                "available_balance", 
+                "account_type"
+            ],
+            "column_format": [
+                ["ledger_balance", "number"],
+                ["available_balance", "number"]
+            ],
+            "column_ops": [
+                ["ledger_balance", "'ledger_balance' div 100"],
+                ["available_balance", "'available_balance' div 100"]
+            ]
+        },
+        "detalle_tx": {
+            "delimiter": ";",
+            "names": [
+                "Fecha_transaccion",
+                "Nro_Tarjeta",
+                "Transaction Type",
+                "Message Type",
+                "Monto Trans Original",
+                "Authorization ID",
+                "Acquiring Inst ID",
+                "Retrieval Ref",
+                "Card Acceptor ID",
+                "Card Acceptor Name",
+                "Merchant Type",
+                "Response Code",
+                "Transaction Code",
+                "From_account",
+                "To_account",
+                "Nodo"
+            ],
+            "column_format": [
+                ["Monto Trans Original", "number"],
+                ["Fecha_transaccion", ["date", "%Y-%m-%d %H:%M:%S.%f"]]
+            ],
+            "column_ops": []
+        }
+    }, "zinli": {
+        "report_balances": {
+            "delimiter": ",",
+            "names": [
+                "account_id", 
+                "ledger_balance", 
+                "available_balance", 
+                "account_type"
+            ],
+            "column_format": [
+                ["ledger_balance", "number"],
+                ["available_balance", "number"]
+            ],
+            "column_ops": [
+                ["ledger_balance", "'ledger_balance' div 100"],
+                ["available_balance", "'available_balance' div 100"]
+            ]
+        },
+        "detalle_tx": {
+            "delimiter": ";",
+            "names": [
+                "datetime_req",
+                "pan",
+                "tran_type",
+                "message_type",
+                "settle_amount_impact",
+                "auth_id_rsp",
+                "acquiring_inst_id_code",
+                "retrieval_reference_nr",
+                "card_acceptor_id_code",
+                "card_acceptor_name_loc",
+                "merchant_type",
+                "rsp_code_req",
+                "tran_nr",
+                "from_account_id",
+                "to_account_id",
+                "column_16",
+                "column_17",
+                "column_18",
+                "column_19",
+                "column_20",
+                "column_21",
+                "column_22",
+                "source_node_name"
+            ],
+            "column_format": [
+                ["settle_amount_impact", "number"],
+                ["datetime_req", ["date", "%Y-%m-%d %H:%M:%S.%f"]]
+            ],
+            "column_ops": []
+        },
+        "baseII": {
+            "delimiter": "|",
+            "names": [],
+            "column_format": [
+                ["Destination Amount", "number"],
+                ["Source Amount", "number"],
+                ["Fecha Reporte", ["date", "%d/%m/%Y"]]
+            ],
+            "column_ops": [
+                ["Destination Amount", "'Destination Amount' div 100"],
+                ["Source Amount", "'Source Amount' div 100"]
+            ]
+        },
+        "liberaciones": {
+            "delimiter": ",",
+            "names": [
+                "Cuenta",
+                "Tarjeta",
+                "Monto Trx",
+                "Autorizacion ID",
+                "Merchant Type",
+                "Fecha Liberacion",
+                "Fecha Trx",
+                "Nodo:Ref"
+            ],
+            "column_format": [
+                ["Monto Trx", "number"],
+                ["Fecha Liberacion", ["date", "%Y-%m-%d %H:%M:%S.%f"]],
+                ["Fecha Trx", ["date", "%Y-%m-%d %H:%M:%S.%f"]]
+            ],
+            "column_ops": [
+                ["Monto Trx", "'Monto Trx' div 100"],
+                ["Monto Trx", "'Monto Trx' mul -1"],
+                ["Fecha Trx", "'Fecha Trx' as '%d/%m/%Y'"]
+            ]
+        }
+    }
+}
