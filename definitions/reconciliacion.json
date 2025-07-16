@@ -1,0 +1,24 @@
+{
+    "mio": {
+        "detalle_tx": {
+            "llaves": [
+                ["llave1", ["pan", "auth_id_rsp", "settle_amount_impact", "Fecha_tx", "card_acceptor_id_code"]],
+                ["llave2", ["pan", "auth_id_rsp", "settle_amount_impact"]],
+                ["llave3", ["pan", "auth_id_rsp"]]
+            ],
+            "debit": ["tran_type", ["00", "01", "02", "09", "11"]],
+            "credit": ["tran_type", ["20", "21", "22"]]
+        }
+            
+        ,
+        "baseII": {
+            "llaves": [
+                ["llave1", ["Account Number", "Authorization Code", "Destination Amount", "Fecha Reporte", "Card Acceptor ID"]],
+                ["llave2", ["Account Number", "Authorization Code", "Destination Amount"]],
+                ["llave3", ["Account Number", "Authorization Code"]]
+            ],
+            "debit": ["TC", ["05", "07", "26"]],
+            "credit": ["TC", ["06", "25", "27"]]
+        }
+    }
+}

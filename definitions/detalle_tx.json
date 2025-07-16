@@ -5,8 +5,10 @@
             "column_mapping": [
                 "df['f030f5088e744d224fc4f886ba963ceda38ffdec2c85504d741a105871123a54'] = df['settle_amount_impact']",
                 "df['6f2f3abd5cd439acc192a74f731e74c18a0a1eb8ee49cd2a6ffe13cda2b66114'] = df['from_account_id']",
-                "df['b44f59c11425e5aedad4d9b44c72d4f4b855173d0463e741d667fb1cbf66f51f'] = df['to_account_id']"
-            ], "detalle_tx": {
+                "df['b44f59c11425e5aedad4d9b44c72d4f4b855173d0463e741d667fb1cbf66f51f'] = df['to_account_id']",
+                "df['dbcfe2aa5556d97663084daa29bf901f0796eda081b91a2e059a15a34b1ff84b'] = df['message_type']"
+            ], 
+            "detalle_tx": {
                 "estado": {
                     "condlist": [
                         "df['rsp_code_req'] != '00'",
@@ -56,7 +58,8 @@
                     ], 
                     "default": 0.0
                 }
-            }, "posteos": {
+            }, 
+            "posteos": {
                 "condlist": [
                     "df['rsp_code_req'] == '00' and df['source_node_name'] == 'srVISAMIO' and df['estado'] == 'A_NO CONCILIADA'",
                     "df['rsp_code_req'] == '00' and df['source_node_name'] == 'srPostMIO' and df['estado'] == 'A_NO CONCILIADA'"

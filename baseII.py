@@ -1,10 +1,8 @@
 import pandas as pd
 import json
 
-from utils import validate_params, map_columns, format_money
-from read_csv import read_csv
-
-PATH = './baseII'
+from constants import PATH_SQL_BASEII, PATH_DEFINITION_BASEII
+from utils import format_money, add_columns, read_csv, update_checklist_control_operativo, validate_params
 
 def tabla_baseII(client: str, fecha: str, df: pd.DataFrame):
 
@@ -13,8 +11,16 @@ def tabla_baseII(client: str, fecha: str, df: pd.DataFrame):
 
     # --- WRITE SQL OUTPUT ---
 
-    with open(f"{PATH}/{client}_tabla_baseII.sql", "w") as file:
+    with open(f"{PATH_SQL_BASEII}/{client}_tabla_baseII.sql", "w") as file:
         file.write(f"""
+            CREATE SCHEMA IF NOT EXISTS {client};
+
+            CREATE TABLE IF NOT EXISTS {client}.baseII (
+                fecha DATE PRIMARY KEY DEFAULT CURRENT_DATE,
+                cantidad INTEGER DEFAULT 0,
+                monto NUMERIC(15,2) DEFAULT 0
+            );
+
             INSERT INTO {client}.baseII (fecha, cantidad, monto) 
                 VALUES ('{fecha}', {cantidad}, {format_money(monto)});
         """)
@@ -27,25 +33,24 @@ def workflow_one(client: str, fecha: str, df: pd.DataFrame, params: dict):
 
     # --- APPLY COLUMN MAPPING ---
 
-    df = map_columns(params['column_mapping'], df)
+    df = add_columns(df, params['column_mapping'])
 
     # --- EXECUTE WORKFLOW ---
 
     tabla_baseII(client, fecha, df)
 
-if __name__ == '__main__':
+def baseII(client, filename, fecha):
 
-    client = 'zinli'
-    fecha = '2025-06-18'
-
-    with open('baseII_definitions.json', 'r') as f:
+    with open(PATH_DEFINITION_BASEII, 'r') as f:
         workflows = json.load(f)
 
     workflow_type = workflows[client]['workflow_type']
     params = workflows[client]['params']
 
-    df = read_csv(client, 'baseII', './documents/NP-MFTECH-485046BASE168.txt')
+    df = read_csv(client, 'baseII', filename)
 
     if workflow_type == '1':
 
         workflow_one(client, fecha, df, params)
+
+    update_checklist_control_operativo(client, fecha, { "baseII": filename })

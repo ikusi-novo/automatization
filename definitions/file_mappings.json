@@ -1,0 +1,14 @@
+{
+    "ReportBalances_MIO_\\d{8}.txt": ["mio", "report_balances"],
+    "Detalle_tx_MIO_\\d{8}.txt": ["mio", "detalle_tx"],
+    "NP-MIO-442409BASE-\\d{8}.txt": ["mio", "baseII"],
+    "MIOholdextract_\\d{8}.txt": ["mio", "liberaciones"],
+    "ReportBalances_MFTECH\\d{8}.txt": ["zinli", "report_balances"],
+    "MFTECH_\\d{14}.txt": ["zinli", "detalle_tx"],
+    "NP-MFTECH-485046BASE\\d{3}.txt": ["zinli", "baseII"],
+    "MFTECHholdextract\\d{3}.txt": ["zinli", "liberaciones"],
+    "Saldos_diarios_1_Kubo_\\d{8}": ["kubo_financiero", "report_balances"],
+    "Detalle_tx_\\d{14}": ["kubo_financiero", "detalle_tx"],
+    "ReportBalances_Coopcentral_\\d{8}.txt": ["banco_coopcentral", "report_balances"],
+    "CoopcentralDetalleTx_\\d{8}.txt": ["banco_coopcentral", "detalle_tx"]
+}

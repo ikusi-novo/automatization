@@ -5,3 +5,6 @@ baseII/
 detalle_tx/
 liberaciones/
 report_balances/
+
+__pycache__
+.DS_Store

@@ -1,10 +1,9 @@
-from utils import validate_params, map_columns, format_money, batch_sql
-from read_csv import read_csv
 import pandas as pd
 import numpy as np
 import json
 
-PATH = "./detalle_tx"
+from constants import PATH_SQL_DETALLE_TX, PATH_DEFINITION_DETALLE_TX
+from utils import batch_sql, format_money, add_columns, read_csv, update_checklist_control_operativo, validate_params
 
 # --- NP SELECT HELPERS ---
 
@@ -68,8 +67,18 @@ def tabla_detalle_tx(client: str, fecha: str, df: pd.DataFrame, detalle_tx_param
     debito = df['debito'].sum()
     credito = df['credito'].sum()
 
-    with open(f"{PATH}/{client}_tabla_detalle_tx.sql", "w") as file:
+    with open(f"{PATH_SQL_DETALLE_TX}/{client}_tabla_detalle_tx.sql", "w") as file:
         file.write(f"""
+            CREATE SCHEMA IF NOT EXISTS {client};
+
+            CREATE TABLE IF NOT EXISTS {client}.detalle_tx (
+                fecha DATE PRIMARY KEY DEFAULT CURRENT_DATE,
+                debito NUMERIC(15,2) DEFAULT 0,
+                credito NUMERIC(15,2) DEFAULT 0,
+                total NUMERIC(15,2) DEFAULT 0,
+                saldo_calculado NUMERIC(15,2) DEFAULT 0
+            );
+
             INSERT INTO {client}.detalle_tx (fecha, debito, credito) 
                 VALUES ('{fecha}', {format_money(debito)}, {format_money(credito)});
         """)
@@ -89,8 +98,16 @@ def tabla_posteos(client: str, fecha: str, df: pd.DataFrame, posteos_params: dic
     cantidad = df[df['posteo'] == 'POSTEADO'].shape[0]
     monto = df[df['posteo'] == 'POSTEADO']['f030f5088e744d224fc4f886ba963ceda38ffdec2c85504d741a105871123a54'].sum()
 
-    with open(f"{PATH}/{client}_tabla_posteos.sql", "w") as file:
+    with open(f"{PATH_SQL_DETALLE_TX}/{client}_tabla_posteos.sql", "w") as file:
         file.write(f"""
+            CREATE SCHEMA IF NOT EXISTS {client};
+
+            CREATE TABLE IF NOT EXISTS {client}.posteos (
+                fecha DATE PRIMARY KEY DEFAULT CURRENT_DATE,
+                cantidad INTEGER DEFAULT 0,
+                monto NUMERIC(15,2) DEFAULT 0
+            );
+
             INSERT INTO {client}.posteos (fecha, cantidad, monto) 
                 VALUES ('{fecha}', {cantidad}, {format_money(monto)});
         """)
@@ -118,12 +135,21 @@ def table_control_operativo_detalle_tx(client: str, df: pd.DataFrame):
     batches = batch_sql(rows)
 
     command = """
+    CREATE SCHEMA IF NOT EXISTS {client};
+
+    CREATE TABLE IF NOT EXISTS {client}.control_operativo_detalle_tx (
+        account_id TEXT PRIMARY KEY,
+        debito NUMERIC(15,2) DEFAULT 0,
+        credito NUMERIC(15,2) DEFAULT 0,
+        total NUMERIC(15,2) DEFAULT 0
+    );
+
     INSERT INTO {client}.control_operativo_detalle_tx (account_id, debito, credito, total)
         VALUES {values};
     """
 
     for i, batch in enumerate(batches):
-        with open(f"{PATH}/{client}_tabla_control_operativo_detalle_tx_{i}.sql", "w") as file:
+        with open(f"{PATH_SQL_DETALLE_TX}/{client}_tabla_control_operativo_detalle_tx_{i}.sql", "w") as file:
             file.write(command.format(client=client, values=",\n".join(batch)))
 
 # --- WORKFLOW FUNCTIONS ---
@@ -136,7 +162,7 @@ def workflow_one(client: str, fecha: str, df: pd.DataFrame, params: dict) -> pd.
 
     # --- APPLY COLUMN MAPPING ---
 
-    df = map_columns(params['column_mapping'], df)
+    df = add_columns(df, params['column_mapping'])
     
     # --- EXTRACT PARAMETERS ---
 
@@ -157,7 +183,7 @@ def workflow_two(client: str, fecha: str, df: pd.DataFrame, params: dict) -> pd.
 
     # --- APPLY COLUMN MAPPING ---
 
-    df = map_columns(params['column_mapping'], df)
+    df = add_columns(df, params['column_mapping'])
     
     # --- EXTRACT PARAMETERS ---
 
@@ -169,21 +195,20 @@ def workflow_two(client: str, fecha: str, df: pd.DataFrame, params: dict) -> pd.
 
     table_control_operativo_detalle_tx(client, df)
 
-if __name__ == '__main__':
+def detalle_tx(client, filename, fecha):
 
-    client = 'zinli'
-    fecha = '2025-06-17'
-
-    with open('detalle_tx_definitions.json', 'r') as f:
+    with open(PATH_DEFINITION_DETALLE_TX, 'r') as f:
         workflows = json.load(f)
 
     workflow_type = workflows[client]['workflow_type']
     params = workflows[client]['params']
 
-    df = read_csv(client, 'detalle_tx', './documents/MFTECH_20250617011520.txt')
+    df = read_csv(client, 'detalle_tx', filename)
 
     if workflow_type == '1':
         workflow_one(client, fecha, df, params)
 
     elif workflow_type == '2':
         workflow_two(client, fecha, df, params)
+
+    update_checklist_control_operativo(client, fecha, { "detalle_tx": filename })

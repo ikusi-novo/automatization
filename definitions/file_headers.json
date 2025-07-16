@@ -16,7 +16,7 @@
                 ["ledger_balance", "'ledger_balance' div 100"],
                 ["available_balance", "'available_balance' div 100"]
             ]
-        }, 
+        },
         "detalle_tx": {
             "delimiter": ";",
             "names": [
@@ -66,7 +66,50 @@
         },
         "baseII": {
             "delimiter": "|",
-            "names": [],
+            "skiprows": 1,
+            "names": [
+                "TC",
+                "Account Number",
+                "Floor Limit Indicator",
+                "Acquirer Reference Number",
+                "Purchase Date (MMDD)",
+                "Destination Amount",
+                "Destination Currency Code",
+                "Source Amount",
+                "Source Currency Code",
+                "Merchant Name",
+                "Merchant City",
+                "Merchant Country Code",
+                "Merchant Category Code",
+                "Usage Code",
+                "Reason Code",
+                "Authorization Code",
+                "POS Terminal Capability",
+                "Cardholder ID Method",
+                "POS Entry Mode",
+                "Central Processing Date (YDDD)",
+                "Reimbursement Attribute",
+                "Fee Program Indicator",
+                "Card Acceptor ID",
+                "Terminal ID",
+                "National Reimbursement Fee",
+                "Interface Trace Number",
+                "Acceptance Terminal Indicator",
+                "Prepaid Card Indicator",
+                "Service Development Field",
+                "Account Selection",
+                "Cashback",
+                "Chip Condition Code",
+                "POS Environment",
+                "Surcharge Amount",
+                "Surcharge Credit/Debit Indicator",
+                "Authorization Response Code",
+                "Interchange Fee Amount",
+                "Interchange Fee Sign",
+                "Source Currency to Base Currency Exchange Rate",
+                "Base Currency to Destination Currency Exchange Rate",
+                "Fecha Reporte"
+            ],
             "column_format": [
                 ["Destination Amount", "number"],
                 ["Source Amount", "number"],
@@ -100,7 +143,8 @@
                 ["Fecha Trx", "'Fecha Trx' as '%d/%m/%Y'"]
             ]
         }
-    }, "kubo_financiero": {
+    }, 
+    "kubo_financiero": {
         "report_balances": {
             "delimiter": ",",
             "names": [
@@ -144,7 +188,8 @@
             ],
             "column_ops": []
         }
-    }, "banco_coopcentral": {
+    }, 
+    "banco_coopcentral": {
         "report_balances": {
             "delimiter": ",",
             "names": [
@@ -188,7 +233,8 @@
             ],
             "column_ops": []
         }
-    }, "zinli": {
+    }, 
+    "zinli": {
         "report_balances": {
             "delimiter": ",",
             "names": [
@@ -241,7 +287,50 @@
         },
         "baseII": {
             "delimiter": "|",
-            "names": [],
+            "skiprows": 1,
+            "names": [
+                "TC",
+                "Account Number",
+                "Floor Limit Indicator",
+                "Acquirer Reference Number",
+                "Purchase Date (MMDD)",
+                "Destination Amount",
+                "Destination Currency Code",
+                "Source Amount",
+                "Source Currency Code",
+                "Merchant Name",
+                "Merchant City",
+                "Merchant Country Code",
+                "Merchant Category Code",
+                "Usage Code",
+                "Reason Code",
+                "Authorization Code",
+                "POS Terminal Capability",
+                "Cardholder ID Method",
+                "POS Entry Mode",
+                "Central Processing Date (YDDD)",
+                "Reimbursement Attribute",
+                "Fee Program Indicator",
+                "Card Acceptor ID",
+                "Terminal ID",
+                "National Reimbursement Fee",
+                "Interface Trace Number",
+                "Acceptance Terminal Indicator",
+                "Prepaid Card Indicator",
+                "Service Development Field",
+                "Account Selection",
+                "Cashback",
+                "Chip Condition Code",
+                "POS Environment",
+                "Surcharge Amount",
+                "Surcharge Credit/Debit Indicator",
+                "Authorization Response Code",
+                "Interchange Fee Amount",
+                "Interchange Fee Sign",
+                "Source Currency to Base Currency Exchange Rate",
+                "Base Currency to Destination Currency Exchange Rate",
+                "Fecha Reporte"
+            ],
             "column_format": [
                 ["Destination Amount", "number"],
                 ["Source Amount", "number"],
